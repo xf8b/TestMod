@@ -12,23 +12,27 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class ExplodePacket {
+    private static float radius;
     private static BlockPos pos;
     private static BlockRayTraceResult blockRayTraceResult;
 
-    public ExplodePacket(BlockPos pos, BlockRayTraceResult blockRayTraceResult) {
+    public ExplodePacket(BlockPos pos, BlockRayTraceResult blockRayTraceResult, float radius) {
         ExplodePacket.pos = pos;
         ExplodePacket.blockRayTraceResult = blockRayTraceResult;
+        ExplodePacket.radius = radius;
     }
 
     public static ExplodePacket decode(final PacketBuffer buffer) {
         ExplodePacket.pos = buffer.readBlockPos();
         ExplodePacket.blockRayTraceResult = buffer.readBlockRay();
-        return new ExplodePacket(pos, blockRayTraceResult);
+        ExplodePacket.radius = buffer.readFloat();
+        return new ExplodePacket(pos, blockRayTraceResult, radius);
     }
 
     public static void encode(final PacketBuffer buffer) {
         buffer.writeBlockPos(pos);
         buffer.writeBlockRay(blockRayTraceResult);
+        buffer.writeFloat(radius);
     }
 
     public static void handle(final Supplier<NetworkEvent.Context> ctx) {
@@ -41,7 +45,7 @@ public class ExplodePacket {
             BlockPos blockRayTraceResultPos = blockRayTraceResult.getPos();
 
             if (world.isAreaLoaded(pos, 64)) {
-                world.createExplosion(EntityType.TNT.create(world), blockRayTraceResultPos.getX(), blockRayTraceResultPos.getY(), blockRayTraceResultPos.getZ(), 4.0F, Explosion.Mode.BREAK);
+                world.createExplosion(EntityType.TNT.create(world), blockRayTraceResultPos.getX(), blockRayTraceResultPos.getY(), blockRayTraceResultPos.getZ(), radius, Explosion.Mode.BREAK);
             }
         });
 
