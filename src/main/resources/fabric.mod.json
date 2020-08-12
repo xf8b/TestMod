@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "testmod",
+  "version": "${version}",
+  "authors": [
+    "xf8b"
+  ],
+  "name": "TestMod",
+  "description": "A minecraft mod, purely for testing purposes.",
+  "license": "Unlicense",
+  "contact": {
+    "homepage": "https://xf8b.github.io/creations/testmod/",
+    "sources": "https://github.com/xf8b/TestMod/tree/fabric/1.16.2/"
+  },
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.xf8b.testmod.TestMod"
+    ],
+    "client": [
+      "io.github.xf8b.testmod.client.TestModClient"
+    ],
+    "modmenu": [
+      "io.github.xf8b.testmod.integration.TestModModMenuIntegration"
+    ],
+    "rrp:pregen": [
+      "io.github.xf8b.testmod.rrp.TestModRRPPreGenEntryPoint"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+    "cloth-config2": "4.6.0",
+    "advanced_runtime_resource_pack": "0.2.6",
+    "autoconfig1u": "3.2.0-unstable"
+  },
+  "suggests": {
+    "modmenu": "1.14.6+build.31"
+  }
+}
